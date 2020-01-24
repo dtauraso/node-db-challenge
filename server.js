@@ -1,12 +1,12 @@
 const express = require('express');
 
-// const RecipiesRouter = require('./recipies/recipie-router.js');
+const ProjectsRouter = require('./projects/project-router.js');
 
 const server = express();
 
 server.use(express.json());
 server.use(logger)
-// server.use('/api/recipies', RecipiesRouter);
+server.use('/api/projects', ProjectsRouter);
 
 function logger(req, res, next) {
     const { method, originalUrl } = req

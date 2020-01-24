@@ -17,6 +17,12 @@ exports.seed = function(knex) {
             task_notes : 'task notes 3',
             task_completed : false,
             project_id : 2
+        },
+        {
+            task_description : 'task description 4',
+            task_notes : 'task notes 4',
+            task_completed : false,
+            project_id : 3
         }
     ])
 };
