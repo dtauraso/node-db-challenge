@@ -39,12 +39,23 @@ Commit your code regularly and use descriptive messages. This helps both you (in
 Demonstrate your understanding of this week's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your project manager.
 
 - [ ] Explain the difference between `Relational Databases` and `SQL`.
+    
+    A relational database is a set of formally designed tables holding data 
+    that can be reassembled in many ways without having to redesign the tables
+
+    SQL is a programming languguage implementing some or most of the rules for a relational database (Codd's 12 rules).
 
 - [ ] Why do tables need a `primary key`?
 
+    Each row must need a unique identifier
+
 - [ ] What is the name given to a table column that references the primary key on another table.
 
+    foreign key
+
 - [ ] What do we need in order to have a _many to many_ relationship between two tables.
+
+    We need 2 tables and a third table called a link table. The link table has foreign keys linking to the primary key of each base table, creating the many to many link.
 
 ## Minimum Viable Product
 
