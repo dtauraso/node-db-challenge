@@ -4,10 +4,14 @@ module.exports = {
     getLinkTable,
     getProjects,
     getProject,
+    getProject2,
     getResources,
+    getResources2,
     getResource,
     getTasks,
+    getTasks2,
     getTask,
+    
 
     addResource,
     addProject,
@@ -49,12 +53,53 @@ function getProject(project_id) {
         .first()
 
 }
+function getProject2(project_id) {
+    return db
+        .select(
+                'p.id as id',
+                'p.project_name as name',
+                'p.project_description as description',
+                'p.project_completed as completed'
+                )
+        .from('projects as p')
+        .where('p.id', project_id)
+        .first()
+        .then(project => {
+            return {...project,
+                'completed' : intToBool(project['completed'])}
+        })
+
+
+}
+
 function getResources(project_id) {
     return db('projects as p')
             .leftJoin('projects_resources as pr', 'pr.project_id', 'p.id')
             .leftJoin('resources as r', 'pr.resource_id', 'r.id')
             .where('p.id', project_id)
-            .select('p.id as project id', 'r.resource_name', 'r.resource_description')
+            .select(
+                    'p.id as project id',
+                    'r.resource_name',
+                    'r.resource_description')
+
+}
+
+function getResources2(project_id) {
+    return db('projects as p')
+            .leftJoin('projects_resources as pr', 'pr.project_id', 'p.id')
+            .leftJoin('resources as r', 'pr.resource_id', 'r.id')
+            .where('p.id', project_id)
+            .select(
+                    'r.id',
+                    'r.resource_name as name',
+                    'r.resource_description as description')
+            .then(resources => {
+                        if(resources[0].id === null) {
+                            return []
+                        } else {
+                            return resources
+                        }
+                    })
 
 }
 
@@ -80,6 +125,29 @@ function getTasks(project_id) {
             .then(tasks => {
                 return convert(tasks, 'task_completed')
 
+            })
+}
+
+function getTasks2(project_id) {
+    return db('projects as p')
+            .leftJoin('tasks as t', 't.project_id', 'p.id')
+            .where('p.id', project_id)
+            .select(
+                't.id',
+                't.task_description as description',
+                't.task_notes as notes',
+                't.task_completed as completed'
+            )
+            .then(tasks => {
+                return convert(tasks, 'completed')
+
+            })
+            .then(tasks => {
+                if(tasks[0].id === null) {
+                    return []
+                } else {
+                    return tasks
+                }
             })
 }
 function getTask(task_id) {

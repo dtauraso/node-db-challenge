@@ -53,6 +53,39 @@ router.get('/:id/tasks', (req, res) => {
           });
 })
 
+router.get('/:id/afterSprintChallenge', (req, res) => {
+    Projects.getProject2(req.params.id)
+        .then(project => {
+            // console.log(project)
+            return Projects.getTasks2(req.params.id)
+                    .then(tasks => {
+
+                        console.log(tasks)
+                        return Projects.getResources2(req.params.id)
+                                .then(resources => {
+                                    // console.log(resources)
+                                    return res.status(200).json(
+                                        {
+                                            ...project,
+                                            tasks: [...tasks],
+                                            resources: [...resources]
+                                        }
+                                    )
+                                })
+                                .catch(err => {
+                                    res.status(500).json({ message: `Failed to get resources for project ${req.params.id}` });
+                                })
+                    })
+                    .catch(err => {
+                        res.status(500).json({ message: `Failed to get tasks for project ${req.params.id}` });
+                    })
+        })
+        .catch(err => {
+            res.status(500).json({ message: `Failed to get project ${req.params.id}` });
+        })
+})
+
+
 // post(create)
 router.post('/:id/resources', (req, res) => {
     const resourceData = req.body
